@@ -8,20 +8,20 @@ UserModel = get_user_model()
 
 class Project(models.Model):
     class Status(models.TextChoices):
-        NEW = 'NEW', 'New'
-        IN_PROGRESS = 'IN_PROGRESS', 'In Progress'
-        PAUSED = 'PAUSED', 'Paused'
-        COMPLETED = 'COMPLETED', 'Completed'
-        DEPRECATED = 'DEPRECATED', 'Deprecated'
+        NEW = 'New', 'NEW'
+        IN_PROGRESS = 'In Progress', 'IN_PROGRESS'
+        PAUSED = 'Paused', 'PAUSED'
+        COMPLETED = 'Completed','COMPLETED'
+        DEPRECATED ='Deprecated' ,'DEPRECATED'
 
     creator = models.ForeignKey(UserModel, related_name='created', on_delete=models.SET_NULL, null=True)
-    participants = models.ManyToManyField(UserModel, related_name='projects')
+    participants = models.ManyToManyField(UserModel, related_name='projects', null=True)
     title = models.CharField(max_length=80)
     description = models.TextField()
     status = models.CharField(max_length=16, choices=Status.choices, default=Status.NEW)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    date_start = models.DateField()
+    date_end = models.DateField()
 
     def clean(self):
-        if self.end_date < self.start_date:
+        if self.date_end < self.date_start:
             raise ValidationError('End Date must happen after Start Date')

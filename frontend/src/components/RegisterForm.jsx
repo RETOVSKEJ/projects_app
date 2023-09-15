@@ -46,21 +46,21 @@ export default function RegisterForm({ setCurrentUser, edit }) {
         gender,
         phone_number: phoneNumber,
       })
-      .then((res) => {
+      .then((res) =>
         // AUTOMATICALLY LOGS IN THE USER
         client.post("/api/auth/login", {
           email,
           password,
-        });
-      })
+        })
+      )
       .then((res) => {
-        setCurrentUser(res.data.user);
+        console.log(res.data);
+        setCurrentUser(res.data);
       })
       .catch((err) => {
-        console.log(err.response);
-        if (Object.values(err.response.data)[0]) {
-          console.log(Object.values(err.response.data)[0][0]);
-          setError(Object.values(err.response.data)[0][0]);
+        if (err.response && Object.values(err.response.data)) {
+          console.log(Object.values(err.response.data)[0]);
+          setError(Object.values(err.response.data)[0]);
         } else {
           setError("Sorry, Some error happened. Please try again");
         }

@@ -3,6 +3,7 @@ import { client } from "../App";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -10,7 +11,7 @@ const phoneRegex = new RegExp(
 
 export default function EditForm({ currentUser, setCurrentUser, edit }) {
   const [error, setError] = useState("");
-  console.log(currentUser);
+  const navigate = useNavigate();
 
   const schema = z
     .object({
@@ -34,11 +35,11 @@ export default function EditForm({ currentUser, setCurrentUser, edit }) {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
-  function handleRegister(data) {
+  function handleEdit(data) {
     const { email, password, firstName, lastName, age, gender, phoneNumber } =
       data;
     client
-      .post("/api/auth/user/edit", {
+      .put("/api/auth/user/edit", {
         email,
         password,
         first_name: firstName,
@@ -48,7 +49,17 @@ export default function EditForm({ currentUser, setCurrentUser, edit }) {
         phone_number: phoneNumber,
       })
       .then((res) => {
-        setCurrentUser(email);
+        // AUTOMATICALLY LOGS IN THE USER
+        client
+          .post("/api/auth/login", {
+            email,
+            password,
+          })
+          .then((res) => {
+            console.log(res.data);
+            setCurrentUser(res.data);
+            navigate(`/`);
+          });
       })
       .catch((err) => {
         if (Object.values(err.response.data)[0]) {
@@ -63,11 +74,11 @@ export default function EditForm({ currentUser, setCurrentUser, edit }) {
   return (
     <>
       {error ? <p className="text-red-500 font-bold text-xl">{error}</p> : null}
-      <form className="form-auth" onSubmit={handleSubmit(handleRegister)}>
+      <form className="form-auth" onSubmit={handleSubmit(handleEdit)}>
         <input
           type="email"
           placeholder="email"
-          value={currentUser.email}
+          defaultValue={currentUser.email}
           {...register("email")}
         />
         {errors.email && <span>{errors.email.message}</span>}
@@ -88,21 +99,21 @@ export default function EditForm({ currentUser, setCurrentUser, edit }) {
         <input
           type="text"
           placeholder="First Name"
-          value={currentUser.first_name}
+          defaultValue={currentUser.first_name}
           {...register("firstName")}
         />
         {errors.firstName && <span>{errors.firstName.message}</span>}
         <input
           type="text"
           placeholder="Last Name"
-          value={currentUser.last_name}
+          defaultValue={currentUser.last_name}
           {...register("lastName")}
         />
         {errors.lastName && <span>{errors.lastName.message}</span>}
         <input
           type="number"
           placeholder="Age"
-          value={currentUser.age}
+          defaultValue={currentUser.age}
           {...register("age", { valueAsNumber: true })}
         />
         {errors.age && <span>{errors.age.message}</span>}
@@ -122,7 +133,7 @@ export default function EditForm({ currentUser, setCurrentUser, edit }) {
           type="tel"
           placeholder="Phone Number"
           {...register("phoneNumber")}
-          value={currentUser.phone_number}
+          defaultValue={currentUser.phone_number}
         />
         {errors.phoneNumber && <span>{errors.phoneNumber.message}</span>}
         <button className="bg-zinc-900" type="submit">

@@ -21,14 +21,17 @@ class UserRegister(APIView):
 
 class UserEdit(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
     def put(self, request):
-        if request.user.id != int(request.data.get("id", 0)):
+        if request.user != UserModel.objects.get(user_id=request.user.user_id):
             raise exceptions.PermissionDenied("You can only edit your own data.")
+        
         clean_data = validate_user_data(request.data, edit=True)
-        serializer = UserEditSerializer(data=clean_data)
+        serializer = UserEditSerializer(instance=request.user, data=clean_data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, 201)
+            return Response(serializer.data, 200)
+        
         return Response({"error": "Bad Request"}, 400)
 
 
@@ -40,7 +43,7 @@ class UserLogin(APIView):
         if serializer.is_valid(raise_exception=True):
             login(request, serializer.user)
             user_data = UserSerializer(serializer.user).data
-            return Response({"user": user_data}, 200)
+            return Response(user_data, 200)
         return Response(serializer.errors, status=400)
 
 class UserLogout(APIView):
@@ -55,11 +58,11 @@ class UserView(APIView):
     authentication_classes = (SessionAuthentication,)
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response({"user": serializer.data}, 200)
+        return Response(serializer.data, 200)
         
 
 class UsersView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     authentication_classes = (SessionAuthentication,)
     def get(self, request):
         serializer = UserSerializer(UserModel.objects.all(), many=True)

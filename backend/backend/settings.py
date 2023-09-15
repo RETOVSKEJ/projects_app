@@ -25,6 +25,9 @@ SECRET_KEY = 'django-insecure-mh-_b#_bmr54c1^g49zw5n2msa&j8o7=qits(rs)0sp&vb_-3%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173', 'https://127.0.0.1:5173']
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'kubernetes.docker.internal']  # kubernetes.docker for POSTMAN
 
 CORS_ALLOWED_ORIGINS = [
@@ -35,6 +38,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,13 +48,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'corsheaders',
     'rest_framework',
 
     'users.apps.UsersConfig',
     'projects.apps.ProjectsConfig',
 
-    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
@@ -123,6 +127,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
+    "DATE_INPUT_FORMATS": ["%d-%m-%Y"],
 }
 
 # Internationalization

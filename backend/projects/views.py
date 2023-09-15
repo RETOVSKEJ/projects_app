@@ -43,7 +43,6 @@ class PostProject(generics.CreateAPIView):
     serializer_class = ProjectSerializer
 
     def perform_create(self, serializer):
-        print(self.request.user.__dict__)
         project = serializer.save(creator=self.request.user)
         project.participants.add(self.request.user)
 

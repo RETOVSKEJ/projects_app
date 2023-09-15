@@ -7,13 +7,18 @@ import RouteNavigation from "../components/RouteNavigation";
 
 import { client } from "../App";
 
-export default function Home({
-  handleLogout,
-  setRegistrationToggle,
-  registrationToggle,
-}) {
+export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [registrationToggle, setRegistrationToggle] = useState(false);
+
   const { currentUser, setCurrentUser, fetchUser } = useContext(UserContext);
+
+  function handleLogout(ev) {
+    client.post("/api/auth/logout", { withCredentials: true }).then((res) => {
+      setCurrentUser(false);
+      setRegistrationToggle(false);
+    });
+  }
 
   useEffect(() => {
     setIsLoading(false);

@@ -5,10 +5,13 @@ hasło: tester123
 frontend:
 
 cd frontend
+npm install
 npm run dev
 
 backend:
 
+pipenv install
+pipenv shell
 cd backend
 python manage.py runserver
 

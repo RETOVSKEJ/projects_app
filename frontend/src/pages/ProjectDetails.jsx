@@ -14,8 +14,8 @@ export default function ProjectDetails() {
       <h5>creator: {project.creator}</h5>
       <p>desc: {project.description}</p>
       <p>status: {project.status}</p>
-      <p>date end:{project.end_date}</p>
-      <p>date start:{project.start_date}</p>
+      <p>date start:{project.date_start}</p>
+      <p>date end:{project.date_end}</p>
       <p>
         participants id:{" "}
         {project.participants.map((participant) => (
