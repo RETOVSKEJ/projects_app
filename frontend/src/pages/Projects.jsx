@@ -24,8 +24,8 @@ export default function Projects() {
     <div className="flex flex-col gap-4">
       <Navigation />
       {projects.map((project) => (
-        <div className="flex w-1/2 gap-4">
-          <Project key={project.id} project={project} />
+        <div key={project.id} className="flex w-1/2 gap-4">
+          <Project project={project} />
         </div>
       ))}
     </div>

@@ -26,7 +26,8 @@ export default function LoginForm({ setCurrentUser }) {
         password,
       })
       .then((res) => {
-        setCurrentUser(res.data);
+        console.log(res.data);
+        return setCurrentUser(res.data);
       })
       .catch((err) => {
         console.log(err);

@@ -8,7 +8,7 @@ export default function Navbar({
     <nav className="justify-end items-center gap-4 fixed top-0 left-0 right-0 flex">
       {!!currentUser ? (
         <>
-          <p>You're Logged in as {currentUser.email} !</p>
+          <p>Hello {currentUser.email} !</p>
           <button onClick={() => handleLogout()}>Log out</button>
         </>
       ) : registrationToggle ? (

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function Navigation({ confirm }) {
+function Navigation({ disableHistory, confirm, children }) {
   const navigate = useNavigate();
 
   return (
@@ -8,7 +8,11 @@ function Navigation({ confirm }) {
       <button onClick={() => navigate("/")}>
         {confirm ? "Anuluj" : "Home"}
       </button>
-      <button onClick={() => navigate(-1)}>Powrót</button>
+      {disableHistory ? null : (
+        <button onClick={() => navigate(-1)}>Powrót</button>
+      )}
+
+      {children}
     </div>
   );
 }

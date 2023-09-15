@@ -6,5 +6,5 @@ urlpatterns = [
     path('all', GetAllProjects.as_view(), name='allProjects'),   
     path('create', PostProject.as_view(), name='createProject'),
     path('<int:pk>', GetProjectDetails.as_view(), name='project'),
-    path('<int:pk>/modify', ModifyProject.as_view(), name='modifyProject')
+    path('modify/<int:pk>', ModifyProject.as_view(), name='modifyProject')
 ]

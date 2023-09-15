@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../UserContext";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-export default function Auth({ setCurrentUser, registrationToggle }) {
+export default function Auth({ registrationToggle }) {
+  const { currentUser, setCurrentUser, fetchUser } = useContext(UserContext);
+
   return (
     <div>
       <header>

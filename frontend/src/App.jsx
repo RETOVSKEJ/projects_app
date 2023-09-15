@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
+import ProjectPreview from "./pages/ProjectPreview";
 import ProjectFormPage from "./pages/ProjectFormPage";
 import ProjectDetails from "./pages/ProjectDetails";
 import UserEdit from "./pages/UserEdit";
 import Spinner from "./Components/Spinner";
+import Navbar from "./Components/Navbar";
 
 axios.defaults.xsrfCookieName = "csrftoken"; // matching to django
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -20,7 +22,17 @@ export const client = axios.create({
 });
 
 function App() {
+  const [registrationToggle, setRegistrationToggle] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
+
+  console.log("app");
+
+  function handleLogout(ev) {
+    client.post("/api/auth/logout", { withCredentials: true }).then((res) => {
+      setCurrentUser(false);
+      setRegistrationToggle(false);
+    });
+  }
 
   const fetchUser = () => {
     client
@@ -33,16 +45,28 @@ function App() {
     fetchUser();
   }, []);
 
+  if (currentUser === undefined) return <Spinner />;
+
   return (
     <>
       <UserContext.Provider value={{ currentUser, setCurrentUser, fetchUser }}>
+        <Navbar
+          handleLogout={handleLogout}
+          setRegistrationToggle={setRegistrationToggle}
+          registrationToggle={registrationToggle}
+          currentUser={currentUser}
+        />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home registrationToggle={registrationToggle} />}
+          />
           <Route path="/user/edit" element={<UserEdit />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/create" element={<ProjectFormPage />} />
           <Route path="/projects/edit/:id" element={<ProjectFormPage />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
+          <Route path="/project-preview" element={<ProjectPreview />} />
         </Routes>
       </UserContext.Provider>
     </>
