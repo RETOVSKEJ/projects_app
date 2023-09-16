@@ -19,3 +19,6 @@ python manage.py runserver
 
 _WAŻNE! - wchodzic na frontend z 127.0.0.1_
 _127.0.0.1:5173_
+
+
+-/api/auth/users   - specjalnie publiczny endpoint, żebyście mogli zerknąć na id userów
