@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 
@@ -11,6 +11,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import UserEdit from "./pages/UserEdit";
 import Spinner from "./Components/Spinner";
 import Navbar from "./Components/Navbar";
+import UserEditPreview from "./pages/UserEditPreview";
 
 axios.defaults.xsrfCookieName = "csrftoken"; // matching to django
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -24,8 +25,7 @@ export const client = axios.create({
 function App() {
   const [registrationToggle, setRegistrationToggle] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
-
-  console.log("app");
+  const navigate = useNavigate();
 
   function handleLogout(ev) {
     client.post("/api/auth/logout", { withCredentials: true }).then((res) => {
@@ -45,6 +45,13 @@ function App() {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    // NOT AUTHENTICATED
+    if (currentUser === false) {
+      navigate("/");
+    }
+  }, [currentUser]);
+
   if (currentUser === undefined) return <Spinner />;
 
   return (
@@ -62,11 +69,16 @@ function App() {
             element={<Home registrationToggle={registrationToggle} />}
           />
           <Route path="/user/edit" element={<UserEdit />} />
+          <Route path="/user-edit-preview" element={<UserEditPreview />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/create" element={<ProjectFormPage />} />
           <Route path="/projects/edit/:id" element={<ProjectFormPage />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="/project-preview" element={<ProjectPreview />} />
+          <Route
+            path="*"
+            element={<Home registrationToggle={registrationToggle} />}
+          />
         </Routes>
       </UserContext.Provider>
     </>

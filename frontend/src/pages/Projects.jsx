@@ -14,20 +14,27 @@ export default function Projects() {
     client
       .get("/api/projects/")
       .then((res) => {
-        console.log(res);
         setProjects(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
   return (
-    <div className="flex flex-col gap-4">
+    <main className="">
       <Navigation />
-      {projects.map((project) => (
-        <div key={project.id} className="flex w-1/2 gap-4">
-          <Project project={project} />
-        </div>
-      ))}
-    </div>
+      <div className="flex flex-col gap-4 xl:mx-auto xl:w-1/2">
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <div key={project.id} className="flex gap-4 sm:gap-6">
+              <Project project={project} />
+            </div>
+          ))
+        ) : (
+          <h2 className="text-center text-2xl">
+            No projects for this account...
+          </h2>
+        )}
+      </div>
+    </main>
   );
 }

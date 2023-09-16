@@ -20,7 +20,13 @@ export default function RegisterForm({ setCurrentUser, edit }) {
       firstName: z.string().min(2).max(50),
       lastName: z.string().min(2).max(50),
       gender: z.enum(["Male", "Female"]),
-      phoneNumber: z.string().regex(phoneRegex, "Invalid Number!"),
+      phoneNumber: z
+        .string()
+        .optional()
+        .refine(
+          (value) => phoneRegex.test(value) || value === "",
+          "Invalid Number!"
+        ),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: "password do not match",
@@ -69,19 +75,21 @@ export default function RegisterForm({ setCurrentUser, edit }) {
 
   return (
     <>
-      {error ? <p className="text-red-500 font-bold text-xl">{error}</p> : null}
       <form className="form-auth" onSubmit={handleSubmit(handleRegister)}>
+        {error ? (
+          <p className="text-red-600 font-medium text-lg">{error}</p>
+        ) : null}
         <input type="email" placeholder="email" {...register("email")} />
         {errors.email && <span>{errors.email.message}</span>}
         <input
           type="password"
-          placeholder="password"
+          placeholder="Password..."
           {...register("password")}
         />
         {errors.password && <span>{errors.password.message}</span>}
         <input
           type="password"
-          placeholder="confirm password"
+          placeholder="Confirm password..."
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
@@ -89,15 +97,19 @@ export default function RegisterForm({ setCurrentUser, edit }) {
         )}
         <input
           type="text"
-          placeholder="First Name"
+          placeholder="First Name..."
           {...register("firstName")}
         />
         {errors.firstName && <span>{errors.firstName.message}</span>}
-        <input type="text" placeholder="Last Name" {...register("lastName")} />
+        <input
+          type="text"
+          placeholder="Last Name..."
+          {...register("lastName")}
+        />
         {errors.lastName && <span>{errors.lastName.message}</span>}
         <input
           type="number"
-          placeholder="Age"
+          placeholder="Age..."
           {...register("age", { valueAsNumber: true })}
         />
         {errors.age && <span>{errors.age.message}</span>}
@@ -112,10 +124,10 @@ export default function RegisterForm({ setCurrentUser, edit }) {
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
-        <label className="self-start font-bold">Optional:</label>
+        <label className="self-start md:self-center font-bold">Optional:</label>
         <input
           type="tel"
-          placeholder="Phone Number"
+          placeholder="Phone Number..."
           {...register("phoneNumber")}
         />
         {errors.phoneNumber && <span>{errors.phoneNumber.message}</span>}

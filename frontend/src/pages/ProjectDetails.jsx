@@ -10,20 +10,41 @@ export default function ProjectDetails() {
   const disableHistory = location.state.disableHistory;
 
   return (
-    <div className="flex flex-col gap-4">
+    <main className="w-full">
       <Navigation disableHistory={disableHistory} />
-      <h5>title: {project.title}</h5>
-      <h5>creator: {project.creator}</h5>
-      <p>desc: {project.description}</p>
-      <p>status: {project.status}</p>
-      <p>date start:{project.date_start}</p>
-      <p>date end:{project.date_end}</p>
-      <p>
-        participants id:{" "}
-        {project.participants.map((participant) => (
-          <span key={participant}>{participant}, </span>
-        ))}
-      </p>
-    </div>
+      <div className="confirm-wrapper">
+        <h2>Project Details</h2>
+        <p>
+          <strong>Title:</strong> {project.title}
+        </p>
+        <p>
+          <strong>Creator:</strong> {project.creator}
+        </p>
+        <p>
+          <strong className="mb-auto">Description:</strong>{" "}
+          <span className="pl-2 text-end">{project.description}</span>
+        </p>
+        <p>
+          <strong>Status:</strong> {project.status}
+        </p>
+        <p>
+          <strong>Date Start:</strong>{" "}
+          {new Date(project.date_start).toLocaleDateString("en-GB")}
+        </p>
+        <p>
+          <strong>Date End:</strong>{" "}
+          {new Date(project.date_end).toLocaleDateString("en-GB")}
+        </p>
+        <p>
+          <strong>Participants ID:</strong>{" "}
+          {project.participants.map((participant, index, array) => (
+            <span className={index === 0 ? "ml-auto" : null} key={participant}>
+              {participant}
+              {index !== array.length - 1 ? ", " : ""}
+            </span>
+          ))}
+        </p>
+      </div>
+    </main>
   );
 }

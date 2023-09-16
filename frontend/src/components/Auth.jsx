@@ -8,7 +8,7 @@ export default function Auth({ registrationToggle }) {
 
   return (
     <div>
-      <header>
+      <header className="text-center mb-6">
         {registrationToggle ? <h2>Register</h2> : <h2>Log In</h2>}
       </header>
       {registrationToggle ? (

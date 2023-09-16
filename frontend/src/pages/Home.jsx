@@ -18,7 +18,7 @@ export default function Home({ registrationToggle }) {
   if (isLoading) return <Spinner />;
 
   return (
-    <>
+    <main>
       {currentUser ? (
         <RouteNavigation />
       ) : (
@@ -27,6 +27,6 @@ export default function Home({ registrationToggle }) {
           registrationToggle={registrationToggle}
         />
       )}
-    </>
+    </main>
   );
 }

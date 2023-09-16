@@ -10,7 +10,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         """
         Check that startdate is before enddate.
         """
-        print(data)
         if data['date_start'] > data['date_end']:
             raise serializers.ValidationError({
                 "error": "Start date must be before end date."

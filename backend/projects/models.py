@@ -15,7 +15,7 @@ class Project(models.Model):
         DEPRECATED ='Deprecated' ,'DEPRECATED'
 
     creator = models.ForeignKey(UserModel, related_name='created', on_delete=models.SET_NULL, null=True)
-    participants = models.ManyToManyField(UserModel, related_name='projects', null=True)
+    participants = models.ManyToManyField(UserModel, related_name='projects', blank=True)
     title = models.CharField(max_length=80)
     description = models.TextField()
     status = models.CharField(max_length=16, choices=Status.choices, default=Status.NEW)

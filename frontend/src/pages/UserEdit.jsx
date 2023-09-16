@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import Navigation from "../components/Navigation";
-import EditForm from "../components/EditForm";
+import UserForm from "../components/UserForm";
 
 export default function UserEdit() {
   const { currentUser, setCurrentUser, fetchUser } = useContext(UserContext);
@@ -11,9 +11,9 @@ export default function UserEdit() {
   }, []);
 
   return (
-    <>
-      <EditForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
+    <main>
       <Navigation />
-    </>
+      <UserForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
+    </main>
   );
 }

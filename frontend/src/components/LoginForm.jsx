@@ -31,7 +31,7 @@ export default function LoginForm({ setCurrentUser }) {
       })
       .catch((err) => {
         console.log(err);
-        if (Object.values(err.response.data)[0]) {
+        if (err.response.data && Object.values(err.response.data)[0]) {
           console.log(Object.values(err.response.data)[0][0]);
           setError(Object.values(err.response.data)[0][0]);
         } else {
@@ -42,8 +42,10 @@ export default function LoginForm({ setCurrentUser }) {
 
   return (
     <>
-      {error ? <p className="text-red-500 font-bold text-xl">{error}</p> : null}
       <form className="form-auth" onSubmit={handleSubmit(handleLogin)}>
+        {error ? (
+          <p className="text-red-600 font-medium text-lg">{error}</p>
+        ) : null}
         <input type="email" placeholder="email" {...register("email")} />
         {errors.email && <span>{errors.email.message}</span>}
         <input

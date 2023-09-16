@@ -4,7 +4,21 @@
 
 @layer components {
   .form-auth {
-    @apply [&>span]:text-red-500 [&>input]:p-1.5 [&>input]:rounded-sm  flex flex-col justify-center gap-4;
+    @apply [&>span]:text-red-500 [&>span]:text-xs flex flex-col items-center justify-center gap-2;
+  }
+
+  .form-auth > input,
+  .form-auth > select,
+  .form-auth > button {
+    @apply w-full md:w-1/2 p-2  rounded-md focus-visible:ring-2 focus:outline-none;
+  }
+
+  .confirm-wrapper {
+    @apply self-start [&>h2]:px-2 [&>h2]:pb-2 [&>h2]:pt-4 [&>h2]:mb-4 [&>*>strong]:font-bold [&>*>strong]:text-lg flex flex-col gap-2 mx-auto md:w-1/2 border-indigo-300 shadow-lg border-[1px] sm:border-[2px] bg-blue-200/10 rounded-xl px-3 pb-3 sm:px-4 sm:pb-4;
+  }
+
+  .confirm-wrapper > p {
+    @apply flex items-center justify-between;
   }
 }
 
@@ -44,21 +58,30 @@ a:hover {
 body {
   margin: 0;
   display: grid;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 #root {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-rows: auto 1fr auto;
   align-items: center;
+  padding: 6px;
+}
+
+main {
+  width: 100%;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+h2 {
+  font-size: 2.1em;
+  line-height: 1.2;
 }
 
 button {
@@ -72,11 +95,21 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+button[type="submit"] {
+  background-color: #1a1a1a;
+  color: #ffffffde;
+}
+
 button:hover {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+input:focus,
+input:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 

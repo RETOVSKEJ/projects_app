@@ -5,16 +5,26 @@ export default function Navbar({
   setRegistrationToggle,
 }) {
   return (
-    <nav className="justify-end items-center gap-4 fixed top-0 left-0 right-0 flex">
+    <nav className="w-full py-1 items-center gap-4 relative flex">
       {!!currentUser ? (
         <>
-          <p>Hello {currentUser.email} !</p>
+          <p className="ml-auto">Hello {currentUser.email} !</p>
           <button onClick={() => handleLogout()}>Log out</button>
         </>
       ) : registrationToggle ? (
-        <button onClick={() => setRegistrationToggle(false)}>Login</button>
+        <button
+          className="md:ml-auto"
+          onClick={() => setRegistrationToggle(false)}
+        >
+          Login
+        </button>
       ) : (
-        <button onClick={() => setRegistrationToggle(true)}>Register</button>
+        <button
+          className="md:ml-auto"
+          onClick={() => setRegistrationToggle(true)}
+        >
+          Register
+        </button>
       )}
     </nav>
   );
