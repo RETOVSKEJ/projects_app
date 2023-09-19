@@ -7,16 +7,16 @@
 **frontend:**
 
 `
-cd frontend
-npm install
+cd frontend/
+npm install/
 npm run dev
 `
 
 **backend:**
 `
-pipenv install
-pipenv shell
-cd backend
+pipenv install/
+pipenv shell/
+cd backend/
 python manage.py runserver
 `
 ## WAŻNE
