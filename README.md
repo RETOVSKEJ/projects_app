@@ -6,19 +6,20 @@
 
 **frontend:**
 
-`
-cd frontend/
-npm install/
-npm run dev
-`
+
+`cd frontend`
+`npm install`
+`npm run dev`
+
 
 **backend:**
-`
-pipenv install/
-pipenv shell/
-cd backend/
-python manage.py runserver
-`
+
+`pipenv install`
+`pipenv shell`
+`cd backend`
+`python manage.py runserver`
+
+
 ## WAŻNE
 - Style niewykończone. Wiekszość została zrobiona pod ekrany mobilne
 - bez tabeli w projektach (same divy)
